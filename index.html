@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="stylesheet" href="styles.css" />
+  <head>
+    <script
+      src="https://webgazer.cs.brown.edu/webgazer.js"
+      type="text/javascript"
+    ></script>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link
+      rel="icon"
+      href="images/VIBES_LAB_Logo-Transparent.png"
+      type="image/png"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Magi</title>
+  </head>
+  <body>
+    <div id="calibrationContainer"></div>
+    <div id="square"></div>
+    <div id="text">
+      <p>Please keep your eyes on the screen at all times</p>
+    </div>
+
+    <div id="StartScreen">
+      <p>
+        This website is part of an IRB-approved academic research study
+        examining how users interact with web-based experiences. As part of the
+        study, you may be asked whether you’d like to enable
+        <strong>eye tracking</strong> using your device’s camera.
+      </p>
+
+      <h3 style="margin-top: 1em">Important Information</h3>
+      <ul
+        style="
+          text-align: left;
+          display: inline-block;
+          font-size: 1rem;
+          line-height: 1.6;
+          margin-top: 0.5em;
+        "
+      >
+        <li>
+          Participation is entirely voluntary. You may decline or withdraw at
+          any time without penalty.
+        </li>
+        <li>Eye tracking will only be activated with your explicit consent.</li>
+        <li>
+          No identifiable personal data is collected or shared. If you consent,
+          all data is used strictly for research purposes and stored securely.
+        </li>
+        <li>
+          This study has been reviewed and approved by the Institutional Review
+          Board (IRB). Protocol #: (Protocol Number).
+        </li>
+      </ul>
+
+      <p style="margin-top: 1em">
+        By enabling eye tracking, you are providing informed consent for us to
+        collect eye tracking data as part of this study. If you choose not to
+        enable it, you can still participate in the study—no eye tracking data
+        will be collected.
+      </p>
+
+      <p>
+        For general questions about the study, please contact
+        <a href="mailto:jbacho22@bw.edu">John Bacho</a>.
+      </p>
+
+      <button id="startBtn">Acknowledged</button>
+    </div>
+
+    <div id="instructionPhase">
+      <p>
+        Please make sure your volume is on and at an appropriate level before
+        continuing.
+      </p>
+    </div>
+
+    <div id="FixationPoint">+</div>
+
+    <div id="TestSoundText">
+      <p>Click the button below to play a test sound.</p>
+      <button id="submitBtn3">Play Sound</button>
+    </div>
+
+    <div id="EyeTrackingText">
+      <p>
+        Please click on each of the points on the screen. You must click on each
+        point 5 times till it goes away. This will calibrate the eye tracking.
+      </p>
+      <button id="EyeTrackingSubmitBtn">Proceed</button>
+    </div>
+
+    <div id="discamer"></div>
+
+    <div id="question" style="display: none">
+      <p>Did you hear the sound?</p>
+      <button id="yes">Yes</button>
+      <button id="no">No</button>
+    </div>
+
+    <div id="EyeTrackingForm" style="display: none">
+      <p>Enable Eye Tracking</p>
+      <button id="YesEyeTracking">Yes</button>
+      <button id="NoEyeTracking">No</button>
+    </div>
+
+    <div id="formContainer2">
+      <p>Please select your age-range</p>
+      <hr />
+      <input type="radio" value="18-24" id="18-24" name="age-range" />
+      <label for="18-24">18-24</label><br />
+      <input type="radio" value="25-34" id="25-34" name="age-range" />
+      <label for="25-34">25-34</label><br />
+      <input type="radio" value="35-44" id="35-44" name="age-range" />
+      <label for="35-44">35-44</label><br />
+      <input type="radio" value="45-54" id="45-54" name="age-range" />
+      <label for="45-54">45-54</label><br />
+      <input type="radio" value="55-64" id="55-64" name="age-range" />
+      <label for="55-64">55-64</label><br />
+      <input type="radio" value="65+" id="65+" name="age-range" />
+      <label for="65+">65+</label><br />
+      <button id="submitBtn2">Submit</button>
+    </div>
+
+    <div id="formContainer3">
+      <p>Please select your gender</p>
+      <hr />
+      <input type="radio" value="woman" id="woman" name="gender" />
+      <label for="woman">Woman</label><br />
+      <input type="radio" value="man" id="man" name="gender" />
+      <label for="man">Man</label><br />
+      <input type="radio" value="non-binary" id="non-binary" name="gender" />
+      <label for="non-binary">Non-binary</label><br />
+      <input
+        type="radio"
+        value="prefer-not-to-say"
+        id="prefer-not-to-say"
+        name="gender"
+      />
+      <label for="prefer-not-to-say">Prefer not to say</label><br />
+      <input
+        type="radio"
+        value="self-describe"
+        id="self-describe"
+        name="gender"
+      />
+      <label for="self-describe">Prefer to self-describe:</label>
+      <input
+        type="text"
+        id="self-describe-input"
+        name="self-describe-text"
+      /><br />
+      <button id="submitBtn4">Submit</button>
+    </div>
+
+    <form
+      id="responseForm"
+      action="https://formspree.io/f/mpwdjdkk"
+      method="POST"
+    >
+      <input type="hidden" name="responses" id="responsesInput" />
+    </form>
+
+    <div id="container">
+      <div id="grid"></div>
+      <div id="formWrapper">
+        <div id="formContainer" style="display: none">
+          <button id="submitBtn">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="experimentScript.js"></script>
+  </body>
+</html>
