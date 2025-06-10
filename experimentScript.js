@@ -19,40 +19,78 @@ const Grid = document.getElementById("grid");
 let clickEnabled = true;
 const SquareColor = window.getComputedStyle(square).backgroundColor;
 const FixationPoint = document.getElementById("FixationPoint");
+const ColorOptions = document.getElementsByClassName("color-option")
+const ColorPalette = document.getElementById("color-palette")
+
+
+
+const RedButton = document.getElementById("red");
+const BlueButton = document.getElementById("blue");
+const GreenButton = document.getElementById("green");
+const YellowButton = document.getElementById("yellow");
 
 
 
 const pattern1 = [
-    "red", "#ddd", "#ddd", "#ddd", "blue",
-    "#ddd", "green", "#ddd", "yellow", "#ddd",
-    "#ddd", "#ddd", "red", "#ddd", "#ddd",
-    "#ddd", "green", "#ddd", "yellow", "#ddd",
-    "blue", "#ddd", "#ddd", "#ddd", "red"
+  "#ddd", "#ddd", "blue", "#ddd", "#ddd",
+  "#ddd", "#ddd", "#ddd", "green", "#ddd",
+  "#ddd", "#ddd", "#ddd", "#ddd", "#ddd",
+  "yellow", "#ddd", "#ddd", "#ddd", "red",
+  "#ddd", "#ddd", "#ddd", "#ddd", "#ddd"
 ];
 
-// const pattern1 = [
-//   "true", false, false, false, true,
-//   false, true, false, true, false,
-//   false, false, true, false, false,
-//   false, true, false, true, false,
-//   true, false, false, false, true
-// ];
-
 const pattern2 = [
-  true, false, false, false, true,
-  true, true, false, true, false,
-  false, false, false, false, true,
-  false, true, false, true, false,
-  true, false, true, false, true
+  "#ddd", "green", "#ddd", "#ddd", "#ddd",
+  "#ddd", "#ddd", "#ddd", "#ddd", "blue",
+  "#ddd", "#ddd", "#ddd", "red", "#ddd",
+  "#ddd", "#ddd", "#ddd", "#ddd", "#ddd",
+  "yellow", "#ddd", "#ddd", "#ddd", "#ddd"
 ];
 
 const pattern3 = [
-  true, false, false, false, true,
-  true, true, false, true, false,
-  false, false, false, false, true,
-  false, true, false, true, false,
-  true, false, true, false, true
+  "#ddd", "#ddd", "#ddd", "#ddd", "#ddd",
+  "#ddd", "red", "#ddd", "#ddd", "#ddd",
+  "#ddd", "#ddd", "#ddd", "#ddd", "yellow",
+  "#ddd", "#ddd", "#ddd", "#ddd", "blue",
+  "#ddd", "#ddd", "#ddd", "green", "#ddd"
 ];
+
+const pattern4 = [
+  "#ddd", "#ddd", "green", "#ddd", "#ddd",
+  "#ddd", "#ddd", "#ddd", "#ddd", "#ddd",
+  "#ddd", "#ddd", "yellow", "#ddd", "#ddd",
+  "#ddd", "red", "#ddd", "#ddd", "#ddd",
+  "blue", "#ddd", "#ddd", "#ddd", "#ddd"
+];
+
+const pattern5 = [
+  "#ddd", "#ddd", "#ddd", "#ddd", "#ddd",
+  "#ddd", "#ddd", "yellow", "#ddd", "#ddd",
+  "#ddd", "red", "#ddd", "#ddd", "#ddd",
+  "#ddd", "#ddd", "#ddd", "#ddd", "#ddd",
+  "#ddd", "#ddd", "#ddd", "green", "blue"
+];
+
+// These two need to be the same length
+let sequence = [pattern1, pattern2, pattern3, pattern4, pattern5];
+const SequentialBoolArray = [true, false, true, true, false]
+
+let CurrentColor = "red"
+
+const buttons = [RedButton, BlueButton, GreenButton, YellowButton];
+
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    // Set current color based on button ID
+    CurrentColor = button.id;
+
+    // Remove 'big' class from all
+    buttons.forEach(btn => btn.classList.remove('big'));
+
+    // Add 'big' class to clicked one
+    button.classList.add('big');
+  });
+});
 
 
 for (let i = 0; i < 25; i++) {
@@ -64,7 +102,7 @@ for (let i = 0; i < 25; i++) {
           return;
         } 
         square.style.backgroundColor =
-          square.style.backgroundColor === "steelblue" ? "#ddd" : "steelblue";
+          square.style.backgroundColor === CurrentColor ? "#ddd" : CurrentColor;
       });
 
 
@@ -110,7 +148,6 @@ function isLookingAtStimulus(data, element) { // checks if user is looking at th
     data.y <= rect.bottom
   );
 }
-let sequence = [pattern1, pattern2, pattern3];
 let currentIndex = 0;
 let paused = false;
 let pauseTime = 0;
@@ -162,7 +199,6 @@ submitBtn2.addEventListener("click", () => {
 
     formContainer2.style.display = "none";
     formContainer3.style.display = "block";
-
   } else {
     alert("Please select an age range before continuing.");
   }
@@ -190,20 +226,21 @@ submitBtn4.addEventListener("click", () => {
     });
 
     formContainer3.style.display = "none";
-    RunSequence(true);
+    RunSequence();
 
   } else {
     alert("Please select a gender before continuing.");
   }
 });
 
-function RunSequence(Sequential) {
+function RunSequence() {
 FixationPoint.style.display = "block";
+ColorPalette.style.display = "none"
 toggleClicking(false);
 setTimeout(() => {
     FixationPoint.style.display = "none";
     grid.style.display = "grid";
-    UpdatePattern(sequence[currentIndex], Sequential);
+    UpdatePattern(sequence[currentIndex], SequentialBoolArray[currentIndex]);
     
     setTimeout(() => {
         // Hide pattern
@@ -213,6 +250,10 @@ setTimeout(() => {
             // Show response grid
             grid.style.display = "grid";
             formShownTime = performance.now();
+                for (let i = 0; i < ColorOptions.length; i++) {
+    ColorOptions[i].style.display = "inline-block";
+  }
+  ColorPalette.style.display = "flex"
             toggleClicking(true);
             RestPattern();
             formContainer.style.display = "flex";
@@ -225,19 +266,26 @@ setTimeout(() => {
 
 // Submit button
 submitBtn.addEventListener("click", () => {
-  let total = CalculateTotalScore(sequence[currentIndex]);
-  console.log(total);
+  const result = CalculateTotalScore(sequence[currentIndex]);
+  console.log(result.total);
   RestPattern();
-responses.push({
-  responseTimeMs: performance.now() - formShownTime,
-  Score: total
+  responses.push({
+    responseTimeMs: performance.now() - formShownTime,
+    Score: result.total,
+    Accuracy: result.total / 25,
+    Cubes: result.scoreArray
+  });
+  currentIndex++;
+  grid.style.display = "none";
+  formContainer.style.display = "none";
+  if (currentIndex >= sequence.length) {
+    endExperiment();
+  } else {
+    RunSequence();
+  }
 });
-currentIndex++;
-grid.style.display = "none";
-formContainer.style.display = "none";
-RunSequence(false)
 
-});
+
 
 function UpdatePattern(PatternArray, Sequential) {
   if(!Sequential){
@@ -268,22 +316,38 @@ squares.forEach(square => {
     });
 }
 
+function rgbToName(rgb) {
+  const map = {
+    "rgb(255, 0, 0)": "red",
+    "rgb(0, 128, 0)": "green",
+    "rgb(0, 0, 255)": "blue",
+    "rgb(255, 255, 0)": "yellow",
+    "rgb(221, 221, 221)" : "grey"
+  };
+  return map[rgb];
+}
+
+
 function CalculateTotalScore(pattern) {
   let score = [];
   let totalscore = 0;
 
   squares.forEach((square, index) => {
     const color = window.getComputedStyle(square).backgroundColor;
-    if (color === 'rgb(70, 130, 180)') {
+    const squareColorName = rgbToName(color);
+    if (squareColorName === pattern[index] || (squareColorName === "grey" && pattern[index] == "#ddd") ) {
       score[index] = true;
     } else {
       score[index] = false;
     }
-    if (score[index] === pattern[index]) {
+    if (score[index] === true) {
       totalscore++;
     }
   });
-  return totalscore;
+  return {
+    total: totalscore,
+    scoreArray: score
+  };
 }
 
 function toggleClicking(Set) {
