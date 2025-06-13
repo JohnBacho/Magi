@@ -386,6 +386,7 @@ function RunSequence() {
 
       setTimeout(() => {
         // Show response grid
+        document.getElementById("container").classList.add("center");
         grid.style.display = "grid";
         formShownTime = performance.now();
         for (let i = 0; i < ColorOptions.length; i++) {
@@ -403,6 +404,7 @@ function RunSequence() {
 // Submit button
 submitBtn.addEventListener("click", () => {
   grid.style.display = "none";
+  document.getElementById("container").classList.remove("center");
   container.style.display = "none";
   ColorPalette.style.display = "none";
   formContainer.style.display = "none";
