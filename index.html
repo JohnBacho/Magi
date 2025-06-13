@@ -13,7 +13,7 @@
     />
     <link
       rel="icon"
-      href="images/VIBES_LAB_Logo-Transparent.png"
+      href="images/VibesLab.svg"
       type="image/png"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -96,14 +96,6 @@
       <button id="EyeTrackingSubmitBtn">Proceed</button>
     </div>
 
-    <div id="discamer"></div>
-
-    <div id="question" style="display: none">
-      <p>Did you hear the sound?</p>
-      <button id="yes">Yes</button>
-      <button id="no">No</button>
-    </div>
-
     <div id="EyeTrackingForm" style="display: none">
       <p>Enable Eye Tracking</p>
       <button id="YesEyeTracking">Yes</button>
@@ -159,14 +151,6 @@
       <button id="submitBtn4">Submit</button>
     </div>
 
-    <form
-      id="responseForm"
-      action="https://formspree.io/f/mpwdjdkk"
-      method="POST"
-    >
-      <input type="hidden" name="responses" id="responsesInput" />
-    </form>
-
     <div id="container">
       <div id="color-palette">
         <div class="color-option" id="red"></div>
@@ -180,6 +164,35 @@
           <button id="submitBtn">Submit</button>
         </div>
       </div>
+    </div>
+
+    <div id="formContainer4">
+      <p>
+        How confidant are you in your answer <br />
+        0 (not confidant) to 9 (very confidant)
+      </p>
+      <p id="sliderValue">0</p>
+      <input type="range" min="0" max="9" value="0" id="ConfidenceSlider" />
+      <p></p>
+      <button id="submitBtn5">Submit</button>
+    </div>
+
+    <div
+      style="position: absolute; left: -9999px; opacity: 0"
+      aria-hidden="true"
+    >
+      <label for="bot-field">Leave this field empty</label>
+      <input type="text" name="_gotcha" style="display: none" />
+    </div>
+
+    <div id="success-message" style="display: none">
+      <h1>Thank you!</h1>
+      <p>Your experiment data was submitted successfully.</p>
+      <button id="CloseBtn">Close</button>
+    </div>
+
+    <div id="uploadingData" style="display: none">
+      <h1>Please wait uploading data...</h1>
     </div>
 
     <script src="experimentScript.js"></script>

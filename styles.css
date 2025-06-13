@@ -235,6 +235,19 @@ body {
   border-radius: 12px;
 }
 
+#formContainer4 {
+  display: none;
+  text-align: center;
+  font-size: 1.45rem;
+  line-height: 1.6;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #222;
+  padding: 12px;
+  border-radius: 12px;
+}
+
 #formWrapper {
   height: 60px; /* Reserve space for the button */
   display: flex;
@@ -287,7 +300,7 @@ body {
   opacity: 1;
 }
 
-.color-option:active {
+.color-option.big {
   transform: translateY(-4px) scale(1.02);
 }
 
@@ -367,6 +380,39 @@ input[type="range"] {
   touch-action: pan-y;
 }
 
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 40px;
+  height: 40px;
+  background: #4285f4;
+  cursor: pointer;
+  border-radius: 50%;
+  border: none;
+  margin-top: -10px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 40px;
+  height: 40px;
+  background: #4285f4;
+  cursor: pointer;
+  border-radius: 50%;
+  border: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 10px;
+  background: #ddd;
+  border-radius: 12px;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 10px;
+  background: #ddd;
+  border-radius: 12px;
+}
+
 input[type="radio"] {
   transform: scale(2);
 }
@@ -382,16 +428,7 @@ input[type="radio"] {
   font-size: 20px;
 }
 
-#submitBtn,
-#submitBtn2,
-#submitBtn3,
-#submitBtn4,
-#yes,
-#no,
-#YesEyeTracking,
-#NoEyeTracking,
-#EyeTrackingSubmitBtn,
-#startBtn {
+button {
   width: 100%;
   max-width: 220px;
   height: 3rem;
@@ -409,32 +446,31 @@ input[type="radio"] {
   text-align: center;
 }
 
-#submitBtn:hover,
-#submitBtn2:hover,
-#submitBtn3:hover,
-#submitBtn4:hover,
-#yes:hover,
-#no:hover,
-#YesEyeTracking:hover,
-#NoEyeTracking:hover,
-#EyeTrackingSubmitBtn:hover,
-#startBtn:hover {
+button:hover {
   background-color: #b24300;
   transform: scale(1.02);
 }
 
-#submitBtn:focus,
-#submitBtn2:focus,
-#submitBtn3:focus,
-#submitBtn4:focus,
-#yes:focus,
-#no:focus,
-#YesEyeTracking:focus,
-#NoEyeTracking:focus,
-#EyeTrackingSubmitBtn:focus,
-#startBtn:focus {
-  outline: 3px solid #88c0ff;
-  outline-offset: 2px;
+#CloseBtn {
+  background-color: white;
+  color: #d35400;
+}
+
+#success-message,
+#uploadingData {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #d35400;
+  color: white;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .calibration-dot {
