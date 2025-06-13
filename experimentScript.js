@@ -17,6 +17,7 @@ const ColorPalette = document.getElementById("color-palette");
 const slider = document.getElementById("ConfidenceSlider");
 const formContainer4 = document.getElementById("formContainer4");
 const CloseBtn = document.getElementById("CloseBtn");
+const container = document.getElementById("container");
 
 const RedButton = document.getElementById("red");
 const BlueButton = document.getElementById("blue");
@@ -34,11 +35,31 @@ let gazeData = [];
 let LookingAtStimulus;
 
 const pattern1 = [
-  "#ddd", "#ddd", "blue", "#ddd", "#ddd",
-  "#ddd", "#ddd", "#ddd", "green", "#ddd",
-  "#ddd", "#ddd", "#ddd", "#ddd", "#ddd",
-  "yellow", "#ddd", "#ddd", "#ddd", "red",
-  "#ddd", "#ddd", "#ddd", "#ddd", "#ddd"
+  "#ddd",
+  "#ddd",
+  "blue",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "green",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "yellow",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "red",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "#ddd",
+  "#ddd",
 ];
 
 const pattern2 = [
@@ -275,6 +296,7 @@ function RunSequence() {
   toggleClicking(false);
   setTimeout(() => {
     FixationPoint.style.display = "none";
+    container.style.display = "flex";
     grid.style.display = "grid";
     UpdatePattern(sequence[currentIndex], SequentialBoolArray[currentIndex]);
 
@@ -301,6 +323,7 @@ function RunSequence() {
 // Submit button
 submitBtn.addEventListener("click", () => {
   grid.style.display = "none";
+  container.style.display = "none";
   ColorPalette.style.display = "none";
   formContainer.style.display = "none";
   formContainer4.style.display = "block";

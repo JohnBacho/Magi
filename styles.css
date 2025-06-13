@@ -17,6 +17,8 @@ body {
 }
 
 #grid {
+  width: 435px;
+  height: 435px;
   display: none;
   grid-template-columns: repeat(5, 60px);
   grid-template-rows: repeat(5, 60px);
@@ -24,6 +26,22 @@ body {
   margin-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .square{
+  width: 50px !important;
+  height: 50px !important;
+  }
+  #grid{
+    gap: 20px;
+    margin-bottom: 0px;
+    width: 375px;
+  height: 375px;
+  }
+  #container{
+    margin-top: 30px;
+  }
 }
 
 .square {
@@ -341,13 +359,15 @@ body {
     width: 60px;
     height: 60px;
   }
+
 }
 
 #container {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 435px !important;
 }
 
 #formContainer3 {
