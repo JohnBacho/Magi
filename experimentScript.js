@@ -174,12 +174,12 @@ const pattern5 = [
   "blue",
 ];
 
-// These two need to be the same length
+// These two arrays need to be the same length
 let sequence = [pattern1, pattern2, pattern3, pattern4, pattern5];
 const SequentialBoolArray = [true, false, true, true, false];
 
+// used for the buttons that change the select color
 const buttons = [RedButton, BlueButton, GreenButton, YellowButton];
-
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     CurrentColor = button.id;
@@ -188,7 +188,7 @@ buttons.forEach((button) => {
     button.classList.add("big");
   });
 });
-
+// sets the default selected color back to red after every trial
 function resetColorSelection() {
   CurrentColor = "red";
   buttons.forEach((btn) => btn.classList.remove("big"));
@@ -210,7 +210,6 @@ for (let i = 0; i < 25; i++) {
     squareClickLog.push({
       index: i,
       color: newColor,
-      step: currentIndex,
       time: performance.now(),
     });
   });
@@ -219,7 +218,10 @@ for (let i = 0; i < 25; i++) {
 }
 
 const squares = document.querySelectorAll(".square");
-const getCurrentStep = () => currentIndex;
+// phase offset is used to indicate when we are in the confidence rating
+// phase without affecting the current index
+let phaseOffset = 0;
+const getCurrentStep = () => currentIndex + phaseOffset;
 
 trackMouse(mouseData, getCurrentStep);
 trackClicks(clickData, getCurrentStep);
@@ -410,6 +412,7 @@ submitBtn.addEventListener("click", () => {
   formContainer.style.display = "none";
   formContainer4.style.display = "block";
   responseTimeMs = performance.now() - formShownTime;
+  phaseOffset = 0.5;
   responseFormShowTime = performance.now();
 });
 
@@ -419,6 +422,7 @@ submitBtn5.addEventListener("click", () => {
   const result = CalculateTotalScore(sequence[currentIndex]);
   RestPattern();
   memoryTrialData.push({
+    step: currentIndex,
     responseTimeMs: responseTimeMs,
     formResponseTimeMs: performance.now() - responseFormShowTime,
     confidenceRating: slider.value,
@@ -428,7 +432,11 @@ submitBtn5.addEventListener("click", () => {
     userSelected: result.userSelected,
     correctInPattern: result.correctInPattern,
     cubes: result.scoreArray,
+    userRecallOrder: [...squareClickLog],
+    sequential: SequentialBoolArray[currentIndex],
   });
+  squareClickLog.length = 0; // clear squarelog
+  phaseOffset = 0; // clear phaseOffset
   currentIndex++;
   resetColorSelection();
   slider.value = 0;
@@ -551,7 +559,6 @@ function endExperiment() {
     gazeData,
     mouseData,
     clickData,
-    squareClickLog,
     deviceID: navigator.userAgent,
     screenWidth: window.innerWidth,
     screenHeight: window.innerHeight,
