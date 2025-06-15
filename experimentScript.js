@@ -319,25 +319,33 @@ startBtn.addEventListener("click", () => {
   }
 });
 
-// if user selects Yes start calibration
 document.getElementById("YesEyeTracking").addEventListener("click", () => {
   EyeTrackingForm.style.display = "none";
   EyeTrackingText.style.display = "block";
+
+  // Dynamically load WebGazer script
+  const script = document.createElement("script");
+  script.src = "https://webgazer.cs.brown.edu/webgazer.js";
+  script.type = "text/javascript";
+  script.onload = () => {
+    // Start calibration only after script is loaded
+    document
+      .getElementById("EyeTrackingSubmitBtn")
+      .addEventListener("click", () => {
+        EyeTrackingText.style.display = "none";
+        startEyeTracking();
+        startCalibration();
+      });
+  };
+  document.head.appendChild(script);
 });
 
-// if user selects no skips eye tracking
+// User skips eye tracking
 document.getElementById("NoEyeTracking").addEventListener("click", () => {
   EyeTrackingForm.style.display = "none";
   formContainer2.style.display = "block";
 });
 
-document
-  .getElementById("EyeTrackingSubmitBtn")
-  .addEventListener("click", () => {
-    EyeTrackingText.style.display = "none";
-    startEyeTracking();
-    startCalibration();
-  });
 
 // Age BTN
 submitBtn2.addEventListener("click", () => {
@@ -633,16 +641,16 @@ let clickCount = 0;
 const maxClicksPerPoint = 5;
 
 function startCalibration() {
-  const container = document.getElementById("calibrationContainer");
-  container.innerHTML = "";
+  const eyeContainer = document.getElementById("calibrationContainer");
+  eyeContainer.innerHTML = "";
   currentPoint = 0;
   clickCount = 0;
   showNextCalibrationPoint();
 }
 
 function showNextCalibrationPoint() {
-  const container = document.getElementById("calibrationContainer");
-  container.innerHTML = "";
+  const eyeContainer = document.getElementById("calibrationContainer");
+  eyeContainer.innerHTML = "";
 
   if (currentPoint >= calibrationPoints.length) {
     console.log("Calibration complete!");
@@ -661,7 +669,7 @@ function showNextCalibrationPoint() {
   dot.style.top = `calc(${point.y} - 10px)`;
   dot.style.position = "absolute";
 
-  container.appendChild(dot);
+  eyeContainer.appendChild(dot);
 
   dot.addEventListener("click", async () => {
     const feedback = document.createElement("div");
@@ -688,13 +696,13 @@ function showNextCalibrationPoint() {
       }
 
       if (clickCount >= maxClicksPerPoint) {
-        container.removeChild(dot);
+        eyeContainer.removeChild(dot);
         currentPoint++;
         setTimeout(showNextCalibrationPoint, 400);
       }
     } else {
       feedback.textContent = "No gaze detected — please try again.";
-      container.appendChild(feedback);
+      eyeContainer.appendChild(feedback);
       setTimeout(() => feedback.remove(), 1500);
     }
   });
