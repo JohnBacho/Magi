@@ -31,6 +31,8 @@ let squareClickLog = [];
 let CurrentColor = "red";
 let mouseData = [];
 let clickData = [];
+let mouseBuffer = [];
+let clickBuffer = [];
 let gazeData = [];
 let LookingAtStimulus;
 
@@ -223,30 +225,42 @@ const squares = document.querySelectorAll(".square");
 let phaseOffset = 0;
 const getCurrentStep = () => currentIndex + phaseOffset;
 
-trackMouse(mouseData, getCurrentStep);
-trackClicks(clickData, getCurrentStep);
+trackMouse(() => currentIndex);
+trackClicks(() => currentIndex);
 
-function trackMouse(mouseArray, getStep) {
+function trackMouse() {
   document.addEventListener("mousemove", function (event) {
-    mouseArray.push({
+    mouseBuffer.push({
       x: event.clientX,
       y: event.clientY,
-      step: getStep(),
+      step: getCurrentStep(),
       time: performance.now(),
     });
   });
 }
 
-function trackClicks(clickArray, getStep) {
+function trackClicks() {
   document.addEventListener("click", function (event) {
-    clickArray.push({
+    clickBuffer.push({
       x: event.clientX,
       y: event.clientY,
-      step: getStep(),
+      step: getCurrentStep(),
       time: performance.now(),
     });
   });
 }
+
+setInterval(() => {
+  if (mouseBuffer.length > 0) {
+    mouseData.push(...mouseBuffer);
+    mouseBuffer.length = 0; // Clear buffer
+  }
+
+  if (clickBuffer.length > 0) {
+    clickData.push(...clickBuffer);
+    clickBuffer.length = 0;
+  }
+}, 200); // Every 200ms
 
 async function startEyeTracking() {
   // Starts up the eyetracker as well as data collection
@@ -462,8 +476,8 @@ function UpdatePattern(PatternArray, Sequential) {
           squares[index].style.backgroundColor = value;
           setTimeout(() => {
             squares[index].style.backgroundColor = "";
-          }, 500); // Show red for 300ms
-        }, delayCount * 500); // Starts next square 250ms after the last
+          }, 500); // Show red for 500ms
+        }, delayCount * 500); // Starts next square 500ms after the last
         delayCount++;
       }
     });
@@ -479,14 +493,25 @@ function RestPattern() {
 
 // converts rgb value to a name so that it can be compared in CalculateTotalScore
 function rgbToName(rgb) {
-  const map = {
-    "rgb(255, 0, 0)": "red",
-    "rgb(0, 128, 0)": "green",
-    "rgb(0, 0, 255)": "blue",
-    "rgb(255, 255, 0)": "yellow",
-    "rgb(221, 221, 221)": "grey",
+  const rgbMap = {
+    red: [255, 0, 0],
+    green: [0, 128, 0],
+    blue: [0, 0, 255],
+    yellow: [255, 255, 0],
+    grey: [221, 221, 221],
   };
-  return map[rgb];
+
+  const match = rgb.match(/\d+/g).map(Number);
+  for (const [name, [r, g, b]] of Object.entries(rgbMap)) {
+    if (
+      Math.abs(match[0] - r) <= 10 &&
+      Math.abs(match[1] - g) <= 10 &&
+      Math.abs(match[2] - b) <= 10
+    ) {
+      return name;
+    }
+  }
+  return "unknown";
 }
 
 // computes score as well as if the user over or under estimated
